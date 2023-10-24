@@ -1,3 +1,11 @@
+import PublicIcon from "@mui/icons-material/Public";
+import { Typography } from "@mui/material";
+
 export default function Home() {
-  return <p>Hello, world!</p>;
+  return (
+    <Typography>
+      <PublicIcon />
+      Hello, world!
+    </Typography>
+  );
 }
