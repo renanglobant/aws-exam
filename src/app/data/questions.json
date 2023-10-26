@@ -1,0 +1,174 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "You ONLY want to manage Applications and Data. Which type of Cloud Computing model should you use?",
+      "answers": [
+        { "id": 1, "text": "On-premises" },
+        { "id": 2, "text": "Infrastructure as a Service (IaaS)" },
+        { "id": 3, "text": "Software as a Service (SaaS)" },
+        { "id": 4, "text": "Platform as a Service (PaaS)" }
+      ],
+      "correct": [4]
+    },
+    {
+      "id": 2,
+      "question": "What is the pricing model of Cloud Computing?",
+      "answers": [
+        { "id": 1, "text": "Discounts over time" },
+        { "id": 2, "text": "Pay-as-you-go pricing" },
+        { "id": 3, "text": "Pay once a year" },
+        { "id": 4, "text": "Flat-rate pricing" }
+      ],
+      "correct": [2]
+    },
+    {
+      "id": 3,
+      "question": "Which Global Infrastructure identity is composed of one or more discrete data centers with redundant power, networking, and connectivity, and are used to deploy infrastructure?",
+      "answers": [
+        { "id": 1, "text": "Edge Locations" },
+        { "id": 2, "text": "Availability Zones" },
+        { "id": 3, "text": "Regions" }
+      ],
+      "correct": [2]
+    },
+    {
+      "id": 4,
+      "question": "Which of the following is NOT one of the Five Characteristics of Cloud Computing?",
+      "answers": [
+        { "id": 1, "text": "Rapid elasticity and scalability" },
+        { "id": 2, "text": "Multi-tenancy and resource pooling" },
+        {
+          "id": 3,
+          "text": "Dedicated Support Agent to help you deploy applications"
+        },
+        { "id": 4, "text": "On-demand self service" }
+      ],
+      "correct": [3]
+    },
+    {
+      "id": 5,
+      "question": "Which are the 3 pricing fundamentals of the AWS Cloud?",
+      "answers": [
+        {
+          "id": 1,
+          "text": "Compute, Storage, and Data transfer in the AWS Cloud"
+        },
+        {
+          "id": 2,
+          "text": "Compute, Networking, and Data transfer out of the AWS Cloud"
+        },
+        {
+          "id": 3,
+          "text": "Compute, Storage, and Data transfer out of the AWS Cloud"
+        },
+        {
+          "id": 4,
+          "text": "Storage, Functions, and Data transfer in the AWS Cloud"
+        }
+      ],
+      "correct": [3]
+    },
+    {
+      "id": 6,
+      "question": "Which of the following options is NOT a point of consideration when choosing an AWS Region?",
+      "answers": [
+        { "id": 1, "text": "Compliance with data governance" },
+        { "id": 2, "text": "Latency" },
+        { "id": 3, "text": "Capacity availability" },
+        { "id": 4, "text": "Pricing" }
+      ],
+      "correct": [3]
+    },
+    {
+      "id": 7,
+      "question": "Which of the following is NOT an advantage of Cloud Computing?",
+      "answers": [
+        {
+          "id": 1,
+          "text": "Trade capital expense (CAPEX) for operational expense (OPEX)"
+        },
+        { "id": 2, "text": "Train your employees less" },
+        { "id": 3, "text": "Go global in minutes" },
+        {
+          "id": 4,
+          "text": "Stop spending money running and maintaining data centers"
+        }
+      ],
+      "correct": [2]
+    },
+    {
+      "id": 8,
+      "question": "AWS Regions are composed of?",
+      "answers": [
+        { "id": 1, "text": "Two or more Edge Locations" },
+        { "id": 2, "text": "One or more discrete data centers" },
+        { "id": 3, "text": "Three or more Availability Zones" }
+      ],
+      "correct": [3]
+    },
+    {
+      "id": 9,
+      "question": "Which of the following services has a global scope?",
+      "answers": [
+        { "id": 1, "text": "EC2" },
+        { "id": 2, "text": "IAM" },
+        { "id": 3, "text": "Lambda" },
+        { "id": 4, "text": "Rekognition" }
+      ],
+      "correct": [2]
+    },
+    {
+      "id": 10,
+      "question": "Which of the following is the definition of Cloud Computing?",
+      "answers": [
+        {
+          "id": 1,
+          "text": "Rapidly develop, test and launch software applications"
+        },
+        {
+          "id": 2,
+          "text": "Automatic and quick ability to acquire resources as you need them and release resources when you no longer need them"
+        },
+        {
+          "id": 3,
+          "text": "On-demand availability of computer system resources, especially data storage (cloud storage) and computing power, without direct active management by the user"
+        },
+        { "id": 4, "text": "Change resource types when needed" }
+      ],
+      "correct": [3]
+    },
+    {
+      "id": 11,
+      "question": "What defines the distribution of responsibilities for security in the AWS Cloud?",
+      "answers": [
+        { "id": 1, "text": "AWS Pricing Fundamentals" },
+        { "id": 2, "text": "The Shared Responsibility Model" },
+        { "id": 3, "text": "AWS Acceptable Use Policy" },
+        { "id": 4, "text": "The AWS Management Console" }
+      ],
+      "correct": [2]
+    },
+    {
+      "id": 12,
+      "question": "A company would like to benefit from the advantages of the Public Cloud but would like to keep sensitive assets in its own infrastructure. Which deployment model should the company use?",
+      "answers": [
+        { "id": 1, "text": "Private Cloud" },
+        { "id": 2, "text": "Public Cloud" },
+        { "id": 3, "text": "Hybrid Cloud" }
+      ],
+      "correct": [3]
+    },
+    {
+      "id": 13,
+      "question": "What is NOT authorized to do on AWS according to the AWS Acceptable Use Policy?",
+      "answers": [
+        { "id": 1, "text": "Building a gaming application" },
+        { "id": 2, "text": "Deploying a website" },
+        { "id": 3, "text": "Run analytics on stolen content" },
+        { "id": 4, "text": "Backup your data" }
+      ],
+      "correct": [3]
+    }
+  ]
+}
