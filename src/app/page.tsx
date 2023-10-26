@@ -1,7 +1,9 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 
+import awsLogo from "./ assets/aws.svg";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -11,12 +13,17 @@ export default function Home() {
         container
         direction="column"
         justifyContent="center"
+        alignItems="center"
+        spacing={1}
         style={{ minHeight: "100vh" }}
         className={styles.center}
       >
         <Grid item xs={12}>
+          <Image src={awsLogo} alt="AWS Logo" width={65} />
+        </Grid>
+        <Grid item xs={12}>
           <Typography variant="h4" component="h1" align="center">
-            aws Exam Practice
+            Exam Practice
           </Typography>
         </Grid>
         <Grid item xs={12}>
