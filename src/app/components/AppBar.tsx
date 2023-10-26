@@ -22,6 +22,7 @@ export default function AppBar({ title = "" }: AppBarProps) {
             color="inherit"
             component={Link}
             href="/"
+            sx={{ position: "absolute" }}
           >
             Home
           </Button>

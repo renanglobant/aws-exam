@@ -21,3 +21,9 @@
   filter: blur(45px);
   transform: translateZ(0);
 }
+
+@media (max-width: 768px) {
+  .center::after {
+    width: 180px;
+  }
+}

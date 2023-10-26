@@ -14,7 +14,6 @@ export default function Home() {
         direction="column"
         justifyContent="center"
         alignItems="center"
-        spacing={1}
         style={{ minHeight: "100vh" }}
         className={styles.center}
       >
