@@ -20,7 +20,7 @@ export default function AppBar({ title = "" }: AppBarProps) {
           <Button
             startIcon={<ArrowBackIosRoundedIcon />}
             color="inherit"
-            LinkComponent={Link}
+            component={Link}
             href="/"
           >
             Home
