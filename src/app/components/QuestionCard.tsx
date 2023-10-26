@@ -42,6 +42,10 @@ export default function QuestionCard({
     }
   }, [checkAnswer]);
 
+  useEffect(() => {
+    setValue("");
+  }, [question]);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!showAnswer && !checkAnswer) {
       setValue(event.target.value);
@@ -76,7 +80,7 @@ export default function QuestionCard({
                   const successColor = theme.palette.success.dark;
                   const errorColor = theme.palette.error.dark;
 
-                  if (isSelectedAnswer) {
+                  if (isSelectedAnswer && checkAnswer) {
                     return isCorrectAnswer ? successColor : errorColor;
                   }
 
