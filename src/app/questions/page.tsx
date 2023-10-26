@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Check as CheckIcon,
@@ -50,16 +50,12 @@ export default function Questions() {
     setCheckAnswer((value) => !value);
   };
 
-  const updateSelectedAnswer = useCallback(
-    (questionId: number, answerId: number) => {
-      setSelectedAnswers((currentValue) => ({
-        ...currentValue,
-        [questionId]: answerId,
-      }));
-    },
-    [setSelectedAnswers],
-  );
-
+  const updateSelectedAnswer = (questionId: number, answerId: number) => {
+    setSelectedAnswers((currentValue) => ({
+      ...currentValue,
+      [questionId]: answerId,
+    }));
+  };
   const disableCheckButton = !checkAllQuestionsAnswered();
 
   return (

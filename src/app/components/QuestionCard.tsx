@@ -17,6 +17,7 @@ interface QuestionProps {
   question: QuestionType;
   showAnswer?: boolean;
   checkAnswer?: boolean;
+  initialValue?: string;
   updateSelectedAnswer?: (questionId: number, answerId: number) => void;
 }
 
@@ -24,13 +25,23 @@ export default function QuestionCard({
   question,
   showAnswer = false,
   checkAnswer = false,
+  initialValue = "",
   updateSelectedAnswer,
 }: QuestionProps) {
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState(initialValue);
+
+  useEffect(() => {
+    if (!!initialValue && !value) setValue(initialValue);
+  }, [initialValue, value]);
+
+  useEffect(() => {
+    setValue("");
+  }, [question]);
 
   useEffect(() => {
     updateSelectedAnswer?.(question.id, +value);
-  }, [question, updateSelectedAnswer, value]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
 
   useEffect(() => {
     if (!showAnswer) setValue("");
@@ -41,10 +52,6 @@ export default function QuestionCard({
       setValue("");
     }
   }, [checkAnswer]);
-
-  useEffect(() => {
-    setValue("");
-  }, [question]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!showAnswer && !checkAnswer) {
