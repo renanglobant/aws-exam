@@ -11,6 +11,7 @@ import {
 import { Box, Button, Card, Container, Typography } from "@mui/material";
 
 import AppBar from "../components/AppBar";
+import Loading from "../components/Loading";
 import QuestionCard from "../components/QuestionCard";
 import { getQuestions } from "../services/questions";
 import theme from "../theme";
@@ -40,17 +41,28 @@ export default function Quiz() {
   const [userAnswers, setUserAnswers] = useState<{
     [key: number]: number;
   }>({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  const currentId =
+    questionIdsToAnswer.length > 0 ? questionIdsToAnswer[questionNumber] : 0;
+  const currentQuestion = questions.find(({ id }) => currentId === id)!;
 
   useEffect(() => {
     const fetchQuestions = async () => {
-      const { questions } = await getQuestions();
-      setQuestions(questions);
-      setQuestionIdsToAnswer(
-        questions
-          .map(({ id }) => id)
-          .sort(shuffle)
-          .slice(0, questionsQuantity),
-      );
+      try {
+        const { questions: fetchedQuestions } = await getQuestions();
+        setQuestions(fetchedQuestions);
+        setQuestionIdsToAnswer(
+          fetchedQuestions
+            .map(({ id }) => id)
+            .sort(shuffle)
+            .slice(0, questionsQuantity),
+        );
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching questions: ", error);
+        setIsLoading(false);
+      }
     };
     fetchQuestions();
   }, []);
@@ -99,10 +111,6 @@ export default function Quiz() {
     setUserAnswers({});
   };
 
-  const currentId =
-    questionIdsToAnswer.length > 0 ? questionIdsToAnswer[questionNumber] : 0;
-  const currentQuestion = questions.find(({ id }) => currentId === id)!;
-
   const checkQuestionsAnswered = () => {
     return userAnswers[currentId] > 0;
   };
@@ -114,7 +122,9 @@ export default function Quiz() {
     <>
       <AppBar title={`Quiz ${questionNumber + 1}/${questionsQuantity}`} />
       <Container sx={{ pt: 2, mb: 14 }}>
-        {showResult ? (
+        {isLoading ? (
+          <Loading />
+        ) : showResult ? (
           <>
             <Card
               sx={{
@@ -168,12 +178,10 @@ export default function Quiz() {
           </>
         ) : (
           <>
-            {questions.length > 0 && (
-              <QuestionCard
-                question={currentQuestion}
-                updateSelectedAnswer={updateSelectedAnswer}
-              />
-            )}
+            <QuestionCard
+              question={currentQuestion}
+              updateSelectedAnswer={updateSelectedAnswer}
+            />
             <Box mt={2} display="flex" justifyContent="right">
               <Button
                 variant="outlined"

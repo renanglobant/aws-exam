@@ -10,6 +10,7 @@ import {
 import { Box, Button, Container } from "@mui/material";
 
 import AppBar from "../components/AppBar";
+import Loading from "../components/Loading";
 import QuestionCard from "../components/QuestionCard";
 import { getQuestions } from "../services/questions";
 import { Question } from "../types/questions";
@@ -21,11 +22,18 @@ export default function Questions() {
   const [selectedAnswers, setSelectedAnswers] = useState<{
     [key: number]: number;
   }>({});
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchQuestions = async () => {
-      const { questions } = await getQuestions();
-      setQuestions(questions);
+      try {
+        const { questions } = await getQuestions();
+        setQuestions(questions);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching questions: ", error);
+        setIsLoading(false);
+      }
     };
     fetchQuestions();
   }, []);
@@ -62,15 +70,19 @@ export default function Questions() {
     <>
       <AppBar title="Questions" />
       <Container sx={{ pt: 2, mb: 14 }}>
-        {questions.map((question) => (
-          <QuestionCard
-            key={question.id}
-            question={question}
-            showAnswer={showAnswer}
-            checkAnswer={checkAnswer}
-            updateSelectedAnswer={updateSelectedAnswer}
-          />
-        ))}
+        {isLoading ? (
+          <Loading />
+        ) : (
+          questions.map((question) => (
+            <QuestionCard
+              key={question.id}
+              question={question}
+              showAnswer={showAnswer}
+              checkAnswer={checkAnswer}
+              updateSelectedAnswer={updateSelectedAnswer}
+            />
+          ))
+        )}
       </Container>
       {questions.length > 0 && (
         <Box
