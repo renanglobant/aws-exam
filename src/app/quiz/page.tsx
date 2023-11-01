@@ -2,62 +2,44 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import {
-  Clear as ClearIcon,
-  NavigateNextRounded as NavigateNextRoundedIcon,
-  EmojiEvents as EmojiEventsIcon,
-  RestartAlt as RestartAltIcon,
-} from "@mui/icons-material";
-import { Box, Button, Card, Container, Typography } from "@mui/material";
+import { NavigateNextRounded as NavigateNextRoundedIcon } from "@mui/icons-material";
+import { Box, Button, Container } from "@mui/material";
 
 import AppBar from "../components/AppBar";
 import Loading from "../components/Loading";
 import QuestionCard from "../components/QuestionCard";
+import ScoreCard from "../components/ScoreCard";
 import { getQuestions } from "../services/questions";
-import theme from "../theme";
 import { Question } from "../types/questions";
-
-const shuffle = () => Math.random() - 0.5;
-
-const roundToTwoDecimalPlaces = (num: number) => {
-  if (typeof num !== "number") {
-    throw new Error("Invalid number");
-  }
-
-  if (num % 1 === 0) {
-    return num;
-  }
-
-  return parseFloat(num.toFixed(2));
-};
+import { UserAnswer } from "../types/userAnswers";
+import { getScore, getShuffledQuestionIds } from "./utils";
 
 export default function Quiz() {
   const questionsQuantity = 10;
   const [questions, setQuestions] = useState<Question[]>([]);
   const [questionIdsToAnswer, setQuestionIdsToAnswer] = useState<number[]>([]);
   const [questionNumber, setQuestionNumber] = useState(0);
-  const [showResult, setShowResult] = useState(false);
-  const [grade, setGrade] = useState(0);
-  const [userAnswers, setUserAnswers] = useState<{
-    [key: number]: number;
-  }>({});
+  const [score, setScore] = useState<number>();
+  const [userAnswers, setUserAnswers] = useState<UserAnswer>({});
   const [isLoading, setIsLoading] = useState(true);
 
-  const currentId =
-    questionIdsToAnswer.length > 0 ? questionIdsToAnswer[questionNumber] : 0;
+  const currentId = questionIdsToAnswer[questionNumber];
   const currentQuestion = questions.find(({ id }) => currentId === id)!;
 
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
         const { questions: fetchedQuestions } = await getQuestions();
-        setQuestions(fetchedQuestions);
-        setQuestionIdsToAnswer(
-          fetchedQuestions
-            .map(({ id }) => id)
-            .sort(shuffle)
-            .slice(0, questionsQuantity),
+        const questionsId = getShuffledQuestionIds(fetchedQuestions).slice(
+          0,
+          questionsQuantity,
         );
+        const examQuestions = fetchedQuestions.filter(({ id }) =>
+          questionsId.includes(id),
+        );
+        setQuestions(examQuestions);
+        setQuestionIdsToAnswer(questionsId);
+
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching questions: ", error);
@@ -67,27 +49,14 @@ export default function Quiz() {
     fetchQuestions();
   }, []);
 
-  const getResult = () => {
-    const corrects = Object.entries(userAnswers).reduce(
-      (totalCorrect, [id, answer]) => {
-        const question = questions.find((q) => q.id === +id);
-        if (question && question.correct.includes(answer)) {
-          return totalCorrect + 1;
-        }
-        return totalCorrect;
-      },
-      0,
-    );
-    const currentGrade = roundToTwoDecimalPlaces(
-      (corrects * 100) / questionsQuantity,
-    );
-    setGrade(currentGrade);
-    setShowResult(true);
+  const updateScore = () => {
+    const currentScore = getScore(questions, userAnswers);
+    setScore(currentScore);
   };
 
   const next = () => {
     if (questionNumber + 1 >= questionsQuantity) {
-      getResult();
+      updateScore();
     } else {
       setQuestionNumber((number) => number + 1);
     }
@@ -106,8 +75,7 @@ export default function Quiz() {
 
   const restart = () => {
     setQuestionNumber(0);
-    setShowResult(false);
-    setGrade(0);
+    setScore(undefined);
     setUserAnswers({});
   };
 
@@ -116,7 +84,7 @@ export default function Quiz() {
   };
 
   const buttonDisabled = !checkQuestionsAnswered();
-  const approved = grade >= 70;
+  const showScore = score !== undefined;
 
   return (
     <>
@@ -124,45 +92,9 @@ export default function Quiz() {
       <Container sx={{ pt: 2, mb: 14 }}>
         {isLoading ? (
           <Loading />
-        ) : showResult ? (
+        ) : showScore ? (
           <>
-            <Card
-              sx={{
-                mt: 1,
-                p: 2,
-              }}
-            >
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                flexDirection="column"
-                color={
-                  approved
-                    ? theme.palette.success.dark
-                    : theme.palette.error.dark
-                }
-              >
-                {approved ? (
-                  <EmojiEventsIcon sx={{ fontSize: 80 }} />
-                ) : (
-                  <ClearIcon sx={{ fontSize: 80 }} />
-                )}
-                <Typography variant="h3" align="center">
-                  {grade}%
-                </Typography>
-                <Typography variant="h3" align="center" gutterBottom>
-                  {grade >= 70 ? "Approved" : "Reproved"}
-                </Typography>
-                <Button
-                  variant="outlined"
-                  startIcon={<RestartAltIcon />}
-                  onClick={restart}
-                >
-                  Restart exam
-                </Button>
-              </Box>
-            </Card>
+            <ScoreCard score={score} restart={restart} />
             {Object.keys(userAnswers).map((key) => {
               const question = questions.find(({ id }) => +key === id)!;
               const value = userAnswers[+key];
